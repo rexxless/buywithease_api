@@ -1,0 +1,725 @@
+{
+	"info": {
+		"_postman_id": "53ade7cd-db88-4ce0-a729-8d0f595b3086",
+		"name": "BuyWithEase API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43464435",
+		"_collection_link": "https://remfan.postman.co/workspace/84afd3c0-6182-45c4-80ab-5adb53c23411/collection/43464435-53ade7cd-db88-4ce0-a729-8d0f595b3086?action=share&source=collection_link&creator=43464435"
+	},
+	"item": [
+		{
+			"name": "Unauthorized",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fio\":\"Иванов Иван Иванович\",\n    \"email\":\"admin@admin.ru\",\n    \"password\":\"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/signup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"signup"
+							]
+						},
+						"description": "В теле запроса указываются данные пользователя:\n\n- \"fio\" - ФИО\n    \n- \"email\" - электронная почта\n    \n- \"password\" - пароль\n    \n\nПри успешной регистрации возвращает сгенерированный токен пользователя."
+					},
+					"response": []
+				},
+				{
+					"name": "Get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Запрос возвращает массив с существующими товарами.\n\nСтруктура ответа:\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"name\": \"Product name 1\",\n    \"description\": \"Product description 1\",\n    \"price\": 100\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Product name 1\",\n    \"description\": \"Product description 2\",\n    \"price\": 200\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@shop.ru\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "В теле запроса указываются данные пользователя:\n\n- \"email\" - электронная почта\n    \n- \"password\" - пароль\n    \n\nПри успешной аутентификации возвращает сгенерированный токен пользователя."
+					},
+					"response": []
+				}
+			],
+			"description": "## **Запросы, которые можно выполнять без авторизации с помощью токена.**"
+		},
+		{
+			"name": "Authorized",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Add item to cart",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/cart/{{product_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"cart",
+										"{{product_id}}"
+									]
+								},
+								"description": "_**{{product_id}} - идентификатор товара**_\n\nДобавляет товар с id = {{product_id}} в корзину пользователя.\n\nВозвращает статус добавления товара в корзину:\n\n- 201 - {\"message\": \"Product add to cart\"} _(При верном id продукта)_\n    \n- 404 - {\"message\": \"Not found\"} _(При несуществующем id продукта)_"
+							},
+							"response": []
+						},
+						{
+							"name": "List cart",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/cart",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"cart"
+									]
+								},
+								"description": "Запрос возвращает массив с товарами, которые находятся в корзине пользователя.\n\nСтруктура ответа:\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"product_id\":5,\n    \"name\": \"Product name 5\",\n    \"description\": \"Product description 5\",\n    \"price\": 500\n  },\n  {\n    \"id\": 2,\n    \"product_id\":1,\n    \"name\": \"Product name 1\",\n    \"description\": \"Product description 1\",\n    \"price\": 200\n  }\n]\n\n ```\n\n**Примечание:**  \n_id - идентификатор товара в корзине_\n\n_product_id - идентификатор товара_"
+							},
+							"response": []
+						},
+						{
+							"name": "Remove item from cart",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/cart/{{id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"cart",
+										"{{id}}"
+									]
+								},
+								"description": "_**{{id}} - Идентификатор товара в корзине пользователя.**_\n\nУдаляет товар с ID = {{id}} из корзины пользователя.  \nВозвращает статус удаления товара:\n\n- 200 - {\"message\":\"Item removed from cart\"} _(При верном id товара)_\n    \n- 404 - {\"message\":\"Not found\"} (_При несуществующем id товара)_"
+							},
+							"response": []
+						},
+						{
+							"name": "Create order",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/order",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"order"
+									]
+								},
+								"description": "Создает заказ из товаров в корзине пользователя.  \nВозвращает статус оформления заказа:\n\n- 201 - {\"order_id\": , \"message\":\"Order is processed\"} (_При успешном создании заказа)_\n    \n- 422 - {\"error\":{\"code\":422, \"message\":\"Cart is empty\"}} _(При создании заказа с пустой корзиной)_"
+							},
+							"response": []
+						},
+						{
+							"name": "List orders",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/order",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"order"
+									]
+								},
+								"description": "Запрос возвращает массив со всеми заказами пользователя.\n\nСтруктура ответа:\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"products\":[1,1,2],\n    \"order_price\": 400\n  },\n  {\n    \"id\": 5,\n    \"products\":[1,2],\n    \"order_price\": 300\n  }\n]\n\n ```\n\n**Примечание:**\n\n_id - идентификатор заказа_\n\n_Массив products содержит идентификаторы товаров в заказе_"
+							},
+							"response": []
+						}
+					],
+					"description": "### **Запросы, которые может выполнять только пользователь без роли администратора.**"
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Create product",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"admin@shop.ru\",\n  \"is_admin\": true,\n  \"id\": 1\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Product name 3\",\n    \"description\": \"Product description 3\",\n    \"price\": 300\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/product",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product"
+									]
+								},
+								"description": "Запрос добавляет новый товар в список товаров.\n\nВ теле запроса указываются следующие данные:\n\n- \"name\" (строка) - наименование товара\n    \n- \"description\" (строка) - описание товара\n    \n- \"price\" (число) - цена товара\n    \n\nВозвращает статус добавления товара:\n\n- 201 - {\"id\": {{ID созданного товара}}, \"message\":\"Product added\"} _(При успешном создании товара)_\n    \n- 422 - { {{Поле, которое не прошло валидацию}}:\"Validation error\"} _(При ошибке валидации каких-либо полей.)_"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"admin@shop.ru\",\n  \"is_admin\": true,\n  \"id\": 1\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/product/{{id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product",
+										"{{id}}"
+									]
+								},
+								"description": "_**{{id}} - идентификатор товара**_\n\nУдаляет товар с ID = {{id}}  \nВозвращает статус удаления товара:\n\n- 200 - {\"message\":\"Product removed\"} _(При успешном удалении товара)_\n    \n- 404 - {\"message\":\"Not found\"} _(При неверном ID товара)_"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit product",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n  \"email\": \"admin@shop.ru\",\n  \"is_admin\": true,\n  \"id\": 1\n}",
+											"type": "string"
+										},
+										{
+											"key": "secret",
+											"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "HS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"price\": 500\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/product/{{id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product",
+										"{{id}}"
+									]
+								},
+								"description": "_**{{id}} - идентификатор товара**_\n\nРедактирует товар с ID = {{id}}  \nВ теле запроса указываются поля, которые необходимо отредактировать:\n\n- \"name\" (строка) - наименование товара\n    \n- \"description\" (строка) - описание товара\n    \n- \"price\" (число) - цена товара\n    \n\nВозможно частичное редактирование данных товара. При успешном  \nредактировании возвращается сам товар с измененными данными.  \nСтруктура:\n\n``` json\n{\n    \"id\": 1,\n    \"name\": \"Product name 1\",\n    \"description\": \"Product description 1\",\n    \"price\": 100  \n}\n\n ```\n\nПри неверном ID возвращает:\n\n- 404 - {\"message\":\"Not found\"}"
+							},
+							"response": []
+						}
+					],
+					"description": "## **Запросы, которые может выполнять только пользователь с ролью администратора.**"
+				},
+				{
+					"name": "Log out",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "payload",
+									"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+									"type": "string"
+								},
+								{
+									"key": "secret",
+									"value": "d772e4a5ac789b3faab83c0a7a8decab4ae534d276b4fa9143a8318e0a31c89c",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"logout"
+							]
+						},
+						"description": "Запрос очищает значение токена пользователя."
+					},
+					"response": []
+				}
+			],
+			"description": "## Запросы, для которых необходима авторизация с помощью токена.\n\nПри попытке доступа к защищенным авторизацией функциям системы  \nво всех запросах возвращается ответ:\n\n- 403 - {“message”: “Login failed”}\n    \n\nПри попытке доступа авторизованным пользователем к функциям  \nнедоступным для своей группы запрос возвращает ответ:\n\n- 403 - {\"message\": \"Forbidden for you\"}"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
