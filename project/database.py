@@ -20,7 +20,6 @@ try:
         password=DB_PASSWORD
     )
     cursor = db.cursor()
-    print("Successfully connected to PostgreSQL database")
 except (Exception, Error) as error:
     print(f"Error while connecting to PostgreSQL: {error}")
     raise
