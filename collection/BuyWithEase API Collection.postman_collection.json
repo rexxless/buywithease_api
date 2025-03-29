@@ -718,7 +718,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "https://localhost:8000/api-shop",
+			"value": "http://localhost:8000/api-shop",
 			"type": "string"
 		}
 	]
