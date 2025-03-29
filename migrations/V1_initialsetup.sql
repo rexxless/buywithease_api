@@ -41,6 +41,6 @@ CREATE TABLE user_2_cart(
 );
 
 CREATE TABLE invalidtoken(
-    token TEXT,
+    token TEXT NOT NULL,
     exp BIGINT NOT NULL
 );

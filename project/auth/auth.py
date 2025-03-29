@@ -18,7 +18,7 @@ def create_access_token(data:dict):
 
     expire = datetime.now(timezone.utc) + timedelta(minutes=30)
     cursor.execute("SELECT is_admin FROM users WHERE email = %s",(data["email"],))
-    to_encode.update({"is_admin": cursor.fetchone()[0], "exp": expire})
+    to_encode.update({"is_admin": cursor.fetchone()[0], "exp": expire.timestamp()})
     cursor.execute("SELECT id FROM users WHERE email = %s",(data["email"],))
     to_encode.update({"id": cursor.fetchone()[0]})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)

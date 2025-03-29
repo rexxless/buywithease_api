@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   api:
@@ -20,6 +19,7 @@ services:
         condition: service_healthy
     networks:
       - app-network
+    container_name: api
 
   db:
     image: postgres:16
@@ -39,7 +39,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+    container_name: db
 volumes:
   postgres_data:
 
