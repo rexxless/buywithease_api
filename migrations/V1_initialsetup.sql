@@ -1,7 +1,7 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     fio VARCHAR(250) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(254) UNIQUE NOT NULL,
     password VARCHAR(250) NOT NULL,
     is_admin BOOLEAN DEFAULT FALSE
 );
@@ -39,6 +39,6 @@ CREATE TABLE user_2_cart(
 );
 
 CREATE TABLE invalidtoken(
-    token TEXT NOT NULL,
+    token VARCHAR(300) NOT NULL,
     exp BIGINT NOT NULL
 );
