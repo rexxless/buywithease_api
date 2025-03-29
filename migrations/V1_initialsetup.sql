@@ -1,4 +1,3 @@
--- Create the users table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     fio VARCHAR(250) NOT NULL,
@@ -7,7 +6,6 @@ CREATE TABLE users (
     is_admin BOOLEAN DEFAULT FALSE
 );
 
--- Insert initial data
 INSERT INTO users (fio, email, password, is_admin) 
 VALUES 
     ('Admin', 'admin@shop.ru', 'QWEasd123', TRUE),
