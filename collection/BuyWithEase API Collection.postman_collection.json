@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "53ade7cd-db88-4ce0-a729-8d0f595b3086",
+		"_postman_id": "cd0dcdf9-b242-4cbb-825e-c17100daf4cd",
 		"name": "BuyWithEase API Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "43464435",
-		"_collection_link": "https://remfan.postman.co/workspace/84afd3c0-6182-45c4-80ab-5adb53c23411/collection/43464435-53ade7cd-db88-4ce0-a729-8d0f595b3086?action=share&source=collection_link&creator=43464435"
+		"_collection_link": "https://remfan.postman.co/workspace/remfan's-Workspace~84afd3c0-6182-45c4-80ab-5adb53c23411/collection/43464435-cd0dcdf9-b242-4cbb-825e-c17100daf4cd?action=share&source=collection_link&creator=43464435"
 	},
 	"item": [
 		{
@@ -634,7 +634,7 @@
 							"jwt": [
 								{
 									"key": "payload",
-									"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2\n}",
+									"value": "{\n  \"email\": \"user@shop.ru\",\n  \"is_admin\": false,\n  \"id\": 2,\n  \"exp\": 1800000000\n}",
 									"type": "string"
 								},
 								{
