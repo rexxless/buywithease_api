@@ -5,7 +5,7 @@
   - **[Docker Compose](https://docs.docker.com/compose/install/)**
   - **[Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)**
 
-Для первого запуска просто скопируйте в терминал следующее:
+Для первого запуска скопируйте в терминал следующее:
 ```shell
 git clone https://github.com/rexxless/buywithease_api.git
 cd buywithease_api/deploy
