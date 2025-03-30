@@ -40,7 +40,6 @@ def delete_product(product_id: int, request: Request, credentials: HTTPAuthoriza
 def update_product(product_id: int, product_update: ProductUpdate, request: Request, credentials: HTTPAuthorizationCredentials = Security(security)):
     cursor.execute("SELECT * FROM products WHERE id = %s", (product_id,))
     existing_product = cursor.fetchone()
-    print(existing_product)
     if not existing_product:
         return JSONResponse(status_code=404, content={"message": "Not found"})
     
